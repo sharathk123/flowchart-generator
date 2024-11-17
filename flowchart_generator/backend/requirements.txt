@@ -1,0 +1,9 @@
+fastapi[all]
+uvicorn[standard]
+pydantic
+langchain
+langchain-community
+langchain-groq
+pytest
+black
+flake8
