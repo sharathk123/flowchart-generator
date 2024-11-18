@@ -36,31 +36,16 @@ generate_flowchart_chain = create_flowchart_generation_chain()
 def read_root():
     return {"message": "Welcome to the Flowchart Generator API!"}
 
-# Dummy function to simulate flowchart generation
-def generate_flowchart(input_text):
-    try:
-        # Simulating a model output structure with 'role' and 'content' keys
-        mermaid_code = f"""
-        graph TD;
-            A[Start] --> B{{{input_text}}}
-            B --> C[Action]
-            C --> D[End]
-        """
-        return {"role": "assistant", "content": mermaid_code}
-    except Exception as e:
-        logger.error(f"Error generating flowchart: {e}")
-        raise
-    
 @app.post("/generate_flowchart")
 async def generate_flowchart_endpoint(request: FlowchartRequest):
     try:
         # Extract the input text from the request
         input_text = request.input
         
-        # Call the flowchart generation function with session_id and input_text
-        mermaid_code = generate_flowchart(input_text)  # No await here
+        # Call the flowchart generation function
+        mermaid_code = generate_flowchart_chain(input_text)  # No session or history needed
 
-        # Return the response as a JSON object
+        # Return the Mermaid code in the response
         return JSONResponse(content={"mermaid_code": mermaid_code})
         
     except Exception as e:
